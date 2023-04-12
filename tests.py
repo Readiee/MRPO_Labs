@@ -1,7 +1,4 @@
-from models import User, Message, GroupChat, Content
-from repositories import UserLocalRepository, GroupChatLocalRepository, MessageLocalRepository
-from services import *
-
+from models import *
 
 # Создать пользователя
 def test_local_repo_user_service_can_create_user():

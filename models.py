@@ -5,7 +5,7 @@ import uuid
 
 
 class User:
-    def __init__(self, user_id: str, name: str, email: str, password: str):
+    def __init__(self, user_id: int, name: str, email: str, password: str):
         self.user_id = user_id
         self.name = name
         self.email = email
@@ -15,7 +15,7 @@ class User:
 
     def __eq__(self, other):
         if isinstance(other, User):
-            return self.user_id == other.user_id
+            return self.email == other.email
         else:
             return False
 
@@ -28,7 +28,7 @@ class Content:
 
 
 class Message:
-    def __init__(self, message_id: str, sender: User, chat, content: Content):
+    def __init__(self, message_id: int, sender: User, chat, content: Content):
         self.message_id = message_id
         self.sender = sender
         self.chat = chat
@@ -43,7 +43,7 @@ class Message:
 
 
 class GroupChat:
-    def __init__(self, group_chat_id: str, name: str, members: List[User]):
+    def __init__(self, group_chat_id: int, name: str, members: List[User]):
         self.group_chat_id = group_chat_id
         self.name = name
         self.members = members
@@ -78,7 +78,7 @@ class GroupChat:
 
 
 class PersonalChat:
-    def __init__(self, personal_chat_id: str, user1: User, user2: User):
+    def __init__(self, personal_chat_id: int, user1: User, user2: User):
         self.personal_chat_id = personal_chat_id
         self.user1 = user1
         self.user2 = user2
@@ -92,7 +92,7 @@ class PersonalChat:
 
 
 class Call:
-    def __init__(self, call_id: str, caller: User):
+    def __init__(self, call_id: int, caller: User):
         self.call_id = call_id
         self.caller = caller
         self.participants: List[User] = [caller]
@@ -113,13 +113,13 @@ class Call:
 
 
 def create_user(name: str, email: str, password: str) -> User:
-    user_id = str(uuid.uuid4())
+    user_id = int(uuid.uuid4())
     user = User(user_id, name, email, password)
     return user
 
 
 def create_group_chat(name: str, members: List[User]) -> GroupChat:
-    group_chat_id = str(uuid.uuid4())
+    group_chat_id = int(uuid.uuid4())
     group_chat = GroupChat(group_chat_id, name, members)
     for member in members:
         member.group_chats.append(group_chat)
@@ -143,7 +143,7 @@ def make_admin_of_group_chat(user: User, group_chat: GroupChat):
 
 
 def send_message(sender: User, chat: GroupChat, content: Content):
-    message_id = str(uuid.uuid4())
+    message_id = int(uuid.uuid4())
     message = Message(message_id, sender, chat, content)
     chat.messages.append(message)
 

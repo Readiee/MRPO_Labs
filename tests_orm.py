@@ -13,9 +13,15 @@ session = Session()
 orm.metadata.create_all(bind=engine)
 orm.start_mappers()
 
+xml_file = 'mrpo.xml'
+json_file = 'mrpo_users.json'
+
 
 def test_user_repository_can_save_user():
-    users_repo = repositories.UserSQLAlchemyRepository(session)
+    # users_repo = repositories.UserSQLAlchemyRepository(session)
+    users_repo = repositories.UserXMLRepository(xml_file)
+    # users_repo = repositories.UserJSONRepository()
+
     new_user_id = 12
     new_user = models.User(user_id=new_user_id, name="Булат", email="bulat@mail.ru", password="bqwerty123")
 
@@ -34,7 +40,10 @@ def test_user_repository_can_save_user():
 
 
 def test_user_repository_can_delete_user():
-    users_repo = repositories.UserSQLAlchemyRepository(session)
+    # users_repo = repositories.UserSQLAlchemyRepository(session)
+    users_repo = repositories.UserXMLRepository(xml_file)
+    # users_repo = repositories.UserJSONRepository()
+
     user_id = 222
     user = models.User(user_id, "Алина", "alina@mail.ru", "aqwerty123")
     users_repo.add(user)
@@ -47,14 +56,23 @@ def test_user_repository_can_delete_user():
 def test_repository_can_save_group_chat():
     group_chats_repo = repositories.GroupChatSQLAlchemyRepository(session)
     users_repo = repositories.UserSQLAlchemyRepository(session)
+
+    # users_repo = repositories.UserXMLRepository(xml_file)
+    # group_chats_repo = repositories.GroupChatXMLRepository(xml_file, users_repo)
+
+    # users_repo = repositories.UserJSONRepository(json_file)
+    # group_chats_repo = repositories.GroupChatJSONRepository(json_file)
+
     user_1 = models.User(43, "Данил", "danil@mail.ru", "dqwerty123")
     user_2 = models.User(78, "Анастасия", "anastasia@mail.ru", "anqwerty123")
     users_repo.add(user_1)
     users_repo.add(user_2)
 
-    new_group_chat_id = 555
+    new_group_chat_id = 122
     members = [users_repo.get_by_id(43), users_repo.get_by_id(78)]
     new_group_chat = models.GroupChat(new_group_chat_id, 'WorkChat', members)
+
+    assert len(new_group_chat.members) == 2
 
     before_count = len(group_chats_repo.get_all())
     # Если группового чата еще нет в репозитории:
@@ -63,13 +81,10 @@ def test_repository_can_save_group_chat():
         models.make_admin_of_group_chat(new_group_chat.members[0], new_group_chat)
         # + 1 групповой чат
         assert before_count + 1 == len(group_chats_repo.get_all())
-        # assert group_chats_repo.get_by_id(new_group_chat_id).members[1].name == 'Анастасия'
-        # assert group_chats_repo.get_by_id(new_group_chat_id).creator.name == 'Данил'
+        assert group_chats_repo.get_by_id(new_group_chat_id).members[1].name == 'Анастасия'
+        assert group_chats_repo.get_by_id(new_group_chat_id).creator.name == 'Данил'
     # Если групповой чат уже есть в репозитории:
     else:
         group_chats_repo.add(new_group_chat)
         # ничего не меняется
         assert before_count == len(group_chats_repo.get_all())
-
-
-

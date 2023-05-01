@@ -1,0 +1,46 @@
+<metadata>
+
+    <users>
+        <user user_id="1">
+            <name>Alice</name>
+            <email>alice@example.com</email>
+            <password>qwerty</password>
+            <group_chats>
+                <group_chat group_chat_id="2" />
+                <group_chat group_chat_id="2" />
+            </group_chats>
+        </user>
+        <user user_id="2">
+            <name>Bob</name>
+            <email>bob@example.com</email>
+            <password>12345</password>
+            <group_chats>
+                <group_chat group_chat_id="1" />
+            </group_chats>
+        </user>
+    <user user_id="3"><name>Bulat</name><email>buladat1@mail.ru</email><password>qwerty213</password><group_chats /></user></users>
+
+    <group_chats>
+        <group_chat group_chat_id="1">
+            <name>Chat 1</name>
+            <creator user_id="1" />
+            <members>
+                <member user_id="1" />
+                <member user_id="2" />
+            </members>
+            <admins>
+                <admin user_id="2" />
+            </admins>
+        </group_chat>
+
+        <group_chat group_chat_id="2">
+            <name>Chat 2</name>
+            <creator user_id="1" />
+            <members>
+                <member user_id="1" />
+            </members>
+            <admins />
+        </group_chat>
+    <group_chat group_chat_id="122"><name>WorkChat</name><creator>43</creator><members><member user_id="43" /><member user_id="78" /></members><admins /></group_chat><group_chat group_chat_id="123"><name>GroupChat123</name><creator>4</creator><members><member user_id="4" /><member user_id="5" /></members><admins /></group_chat><group_chat group_chat_id="122"><name>WorkChat</name><creator>43</creator><members><member user_id="43" /><member user_id="78" /></members><admins /></group_chat><group_chat group_chat_id="122"><name>WorkChat</name><creator>43</creator><members><member user_id="43" /><member user_id="78" /></members><admins /></group_chat></group_chats>
+
+</metadata>

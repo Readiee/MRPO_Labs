@@ -20,6 +20,14 @@ class User:
         else:
             return False
 
+    def serialize(self, serializer):
+        serializer.start_object('user', str(self.user_id))
+        serializer.add_property('name', self.name)
+        serializer.add_property('email', self.email)
+        serializer.add_property('password', self.password)
+        serializer.add_property('personal_chats', self.personal_chats)
+        serializer.add_property('group_chats', self.group_chats)
+
     def to_xml(self) -> ET.Element:
         user_node = ET.Element('user')
         user_node.set('user_id', str(self.user_id))
@@ -76,6 +84,13 @@ class Message:
         else:
             return False
 
+    def serialize(self, serializer):
+        serializer.start_object('user', self.message_id)
+        serializer.add_property('sender', self.sender.user_id)
+        serializer.add_property('chat', self.chat)
+        serializer.add_property('content', self.content)
+        serializer.add_property('timestamp', self.timestamp)
+
 
 class GroupChat:
     def __init__(self, group_chat_id: int, name: str, members: List[User]):
@@ -92,6 +107,15 @@ class GroupChat:
             return self.group_chat_id == other.group_chat_id
         else:
             return False
+
+    def serialize(self, serializer):
+        serializer.start_object('group_chat', self.group_chat_id)
+        serializer.add_property('name', self.name)
+        serializer.add_property('members', self.members)
+        serializer.add_property('creator', self.creator)
+        serializer.add_property('admins', self.admins)
+        serializer.add_property('messages', self.messages)
+        serializer.add_property('calls', self.calls)
 
     def add_member(self, member: User):
         if member not in self.members:

@@ -1,35 +1,14 @@
 from repositories import UserXMLRepository, UserJSONRepository
+from factory import RepositoryFactory
 
-
-class RepositoryFactory:
-    def create_repository(self, format):
-        repo_creator = get_repo_creator(format)
-        return repo_creator()
-
-
-def get_repo_creator(format):
-    if format == 'JSON':
-        return _create_repository_json
-    elif format == 'XML':
-        return _create_repository_xml
-    else:
-        raise ValueError(format)
-
-
-def _create_repository_json():
-    return UserJSONRepository('mrpo_users.json')
-
-def _create_repository_xml():
-    return UserXMLRepository('mrpo.xml')
-
-# Tests
 def test_can_create_json_repo():
     factory = RepositoryFactory()
-    repo = factory.create_repository('JSON')
+    repo = factory.create_repo('JSON')
     assert isinstance(repo, UserJSONRepository)
 
-def test_can_create_json_repo():
+def test_can_create_xml_repo():
     factory = RepositoryFactory()
-    repo = factory.create_repository('XML')
+    repo = factory.create_repo('XML')
     assert isinstance(repo, UserXMLRepository)
+
 

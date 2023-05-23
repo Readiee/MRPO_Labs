@@ -23,10 +23,8 @@ async def main():
     user = User()
     tasks = [user.enter_app(), user.display_state(), user.exit_app(), user.display_state(), user.enter_app()]  # Создание списка задач
 
-    # Запуск задач и ожидание их завершения
     await asyncio.gather(*tasks)
 
-# Создание цикла событий и запуск функции main()
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
 loop.close()
